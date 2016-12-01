@@ -8,7 +8,7 @@ You can read a quickstart for this sample [Angular 1.x Quickstart](https://auth0
 
 To run this quickstart you can fork and clone this repo.
 
-Be sure to set the correct values for your Auth0 application in the `auth0.variables.js` file.
+Be sure to set the correct values for your Auth0 application in the `config.js` file.
 
 To run the application:
 
@@ -35,13 +35,14 @@ serve
   'use strict';
 
   angular
-    .module('app', ['auth0.lock', 'angular-jwt', 'ui.router'])
+    .module('app', ['auth0.lock', 'angular-jwt', 'ui.router', 'formio'])
     .config(config);
 
-  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider'];
+  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'FormioProvider'];
 
-  function config($stateProvider, lockProvider, $urlRouterProvider) {
-
+  function config($stateProvider, lockProvider, $urlRouterProvider, FormioProvider) {
+    FormioProvider.setAppUrl(FORMIO_APP_URL);
+    FormioProvider.setApiUrl(FORMIO_API_URL);
     $stateProvider
       .state('home', {
         url: '/home',
@@ -107,9 +108,9 @@ serve
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['lock', 'authManager'];
+  authService.$inject = ['lock', 'authManager', 'Formio'];
 
-  function authService(lock, authManager) {
+  function authService(lock, authManager, Formio) {
 
     function login() {
       lock.show();
@@ -128,7 +129,13 @@ serve
     function registerAuthenticationListener() {
       lock.on('authenticated', function (authResult) {
         localStorage.setItem('id_token', authResult.idToken);
-        authManager.authenticate();
+        lock.getProfile(authResult.idToken, function (error, profile) {
+
+          // Here we will set the token in the Formio provider, which will retrieve
+          // the user object within Form.io
+          Formio.setToken(profile.user_metadata.formio.token);
+          authManager.authenticate();
+        });
       });
     }
 
