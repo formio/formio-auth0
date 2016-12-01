@@ -1,0 +1,22 @@
+{
+  "name": "formio-auth0",
+  "version": "1.0.0",
+  "description": "Form.io integration with Auth0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/formio/formio-auth0.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/formio/formio-auth0/issues"
+  },
+  "homepage": "https://github.com/formio/formio-auth0#readme",
+  "dependencies": {
+    "formiojs": "^1.4.3"
+  }
+}

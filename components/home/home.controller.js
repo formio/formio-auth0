@@ -9,10 +9,7 @@
   HomeController.$inject = ['authService'];
 
   function HomeController(authService) {
-
-    var vm = this;
-    vm.authService = authService;
-
+    this.authService = authService;
   }
 
 }());

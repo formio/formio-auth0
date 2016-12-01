@@ -3,14 +3,14 @@
   'use strict';
 
   angular
-    .module('app', ['auth0.lock', 'angular-jwt', 'ui.router', 'formio'])
+    .module('app', ['auth0.lock', 'angular-jwt', 'ui.router'])
     .config(config);
 
-  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'FormioProvider'];
+  config.$inject = ['$stateProvider', 'lockProvider', '$urlRouterProvider', 'AppConfig'];
 
-  function config($stateProvider, lockProvider, $urlRouterProvider, FormioProvider) {
-    FormioProvider.setAppUrl(FORMIO_APP_URL);
-    FormioProvider.setApiUrl(FORMIO_API_URL);
+  function config($stateProvider, lockProvider, $urlRouterProvider, AppConfig) {
+    Formio.setAppUrl(AppConfig.FORMIO_APP_URL);
+    Formio.setBaseUrl(AppConfig.FORMIO_API_URL);
     $stateProvider
       .state('home', {
         url: '/home',
@@ -26,8 +26,8 @@
       });
 
     lockProvider.init({
-      clientID: AUTH0_CLIENT_ID,
-      domain: AUTH0_DOMAIN
+      clientID: AppConfig.AUTH0_CLIENT_ID,
+      domain: AppConfig.AUTH0_DOMAIN
     });
 
     $urlRouterProvider.otherwise('/home');

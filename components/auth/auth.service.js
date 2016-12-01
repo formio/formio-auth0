@@ -6,41 +6,28 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['lock', 'authManager', 'Formio'];
-
-  function authService(lock, authManager, Formio) {
-
-    function login() {
-      lock.show();
-    }
-
-    // Logging out just requires removing the user's
-    // id_token and profile
-    function logout() {
-      localStorage.removeItem('id_token');
-      authManager.unauthenticate();
-      Formio.setUser(null);
-    }
-
-    // Set up the logic for when a user authenticates
-    // This method is called from app.run.js
-    function registerAuthenticationListener() {
-      lock.on('authenticated', function (authResult) {
-        localStorage.setItem('id_token', authResult.idToken);
-        lock.getProfile(authResult.idToken, function (error, profile) {
-
-          // Here we will set the token in the Formio provider, which will retrieve
-          // the user object within Form.io
-          Formio.setToken(profile.user_metadata.formio.token);
-          authManager.authenticate();
-        });
-      });
-    }
-
+  authService.$inject = ['lock', 'authManager'];
+  function authService(lock, authManager) {
     return {
-      login: login,
-      logout: logout,
-      registerAuthenticationListener: registerAuthenticationListener
-    }
+      login: function() {
+        lock.show();
+      },
+      logout: function() {
+        localStorage.removeItem('id_token');
+        authManager.unauthenticate();
+        Formio.setUser(null);
+      },
+      init: function() {
+        lock.on('authenticated', function (authResult) {
+          localStorage.setItem('id_token', authResult.idToken);
+          lock.getProfile(authResult.idToken, function (error, profile) {
+            // Here we will set the token in the Formio provider, which will retrieve
+            // the user object within Form.io
+            Formio.setToken(profile.user_metadata.formio.token);
+            authManager.authenticate();
+          });
+        });
+      }
+    };
   }
 })();
