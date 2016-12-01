@@ -1,0 +1,32 @@
+{
+  "name": "formio-auth0",
+  "homepage": "https://github.com/formio/formio-auth0",
+  "authors": [
+    "Travis Tidwell <travis@form.io>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "auth0-lock": "10.2.2",
+    "angular-jwt": ">= 0.1.3",
+    "angular-lock": "~1.0.2",
+    "angular-ui-router": "~0.3.1",
+    "bootstrap": "~3.3.7",
+    "ng-formio": "^2.4.11",
+    "angular-sanitize": "^1.5.9",
+    "jquery": "^3.1.1"
+  },
+  "resolutions": {
+    "angular": "1.5.8"
+  }
+}
