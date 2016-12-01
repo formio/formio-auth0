@@ -1,4 +1,4 @@
-function authRule(user, context, callback) {
+function (user, context, callback) {
 
   // Your Form.io Project API
   var FORMIO_PROJECT_API = 'https://yourproject.form.io';
