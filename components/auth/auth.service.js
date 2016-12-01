@@ -19,6 +19,7 @@
     function logout() {
       localStorage.removeItem('id_token');
       authManager.unauthenticate();
+      Formio.setUser(null);
     }
 
     // Set up the logic for when a user authenticates
